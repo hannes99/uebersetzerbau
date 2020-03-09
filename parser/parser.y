@@ -9,34 +9,33 @@
         exit(2);
     }
 %}
-
 %token END RETURN IF THEN ELSE LOOP BREAK CONT VAR NOT AND
 %token '(' ')' ',' ';' ':' ASSIGN '*' '-' '+' LEQ '#'
-%token ID NUM
+%token NUM ID
 %start program
 
 %%
 
-program : /* EMPTY */   {;}
-        | funcdef ';'   {;}
+program : funcdef ';' program
+	| /* EMPTY */
         ;
 
-funcdef : ID '(' pars ')' stmts END {;}
+funcdef : ID '(' pars ')' stmts END
         ;
 
-pars    : ID ',' mbpars  {;}
-        | mbpars         {;}
+pars    : ID ',' pars	
+        | mbpar	
         ;
 
-mbpars  : ID    {;}
-        | /* EMPTY */   {;}
+mbpar   : ID    
+        | /* EMPTY */   
         ;
 
-stmts   : stmt ';'  {;}
-        | /* empty */   {;}
+stmts   : stmt ';' stmts 
+        | /* EMPTY */   
         ;
 
-stmt    : '(' ')'
+stmt    : RETURN expr
         | IF expr THEN stmts mbelse END
         | ID ':' LOOP stmts END
         | BREAK ID
@@ -46,33 +45,41 @@ stmt    : '(' ')'
         | expr
         ;
 
-mbelse  : ELSE stmts {;}
-        | /* EMPTY */   {;}
+mbelse  : ELSE stmts 
+        | /* EMPTY */   
         ;
 
-lexpr   : ID    {;}
-        | '*' term  {;}
+lexpr   : ID    
+        | '*' term  
         ;
 
-expr    : NOT term  {;}
-        | '-' term  {;}
-        | '*' term  {;}
-        | term '+' term {;}
-        | term '*' term {;}
-        | term AND term {;}
-        | term LEQ term {;}
-        | term '#' term {;}
+expr    : unary term  
+        | term binary term 
         ;
 
-term    : '(' expr ')'  {;}
-        | NUM   {;}
-        | ID    {;}
-        | ID '(' expr ',' mbexpr ')'    {;}
+unary	: NOT
+      	| '-'
+	| '*'
+	;
+
+binary	: '+'
+       	| '*'
+       	| AND
+       	| LEQ
+       	| '#'
+	;
+
+term    : '(' expr ')'  
+	| NUM   
+        | ID	 
+        | ID '(' exprs ')'    
         ;
 
-mbexpr  : expr  {;}
-        | /* EMPTY */   {;}
-        ;
+exprs	: expr ',' exprs
+	| expr
+	| /* EMPTY */
+	;
+
 %%
 
 int main(void) {
