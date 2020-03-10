@@ -3,6 +3,7 @@ hallo(a,s,d,e,s,a,pla,axc)
   if not 4 then 
     cont fghHG;
   end;
+  xx := s;
   var xx := -hallo(,not 4, 5 + 7, *sdf);
 end;
 

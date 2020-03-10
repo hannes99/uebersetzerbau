@@ -20,24 +20,21 @@ program : funcdef ';' program
 	| /* EMPTY */
         ;
 
-funcdef : ID '(' pars ')' stmts END
+funcdef : ID '(' mbpars ')' mbstmts END
         ;
 
-pars    : ID ',' pars	
-        | mbpar	
-        ;
+mbpars	: ID ',' mbpars
+	| ID
+	| /* EMPTY */
+	;
 
-mbpar   : ID    
-        | /* EMPTY */   
-        ;
-
-stmts   : stmt ';' stmts 
-        | /* EMPTY */   
-        ;
+mbstmts	: stmt ';' mbstmts
+       	| /* EMPTY */
+	;
 
 stmt    : RETURN expr
-        | IF expr THEN stmts mbelse END
-        | ID ':' LOOP stmts END
+        | IF expr THEN mbstmts mbelse END
+        | ID ':' LOOP mbstmts END
         | BREAK ID
         | CONT ID
         | VAR ID ASSIGN expr
@@ -45,37 +42,32 @@ stmt    : RETURN expr
         | expr
         ;
 
-mbelse  : ELSE stmts 
+mbelse  : ELSE mbstmts
         | /* EMPTY */   
         ;
 
-lexpr   : ID    
-        | '*' term  
+lexpr   : ID
+        | '*' term
         ;
 
-expr    : unary term  
-        | term binary term 
+expr    : term
+	| NOT term
+	| '-' term
+	| '*' term
+        | term '+' term 
+        | term '*' term 
+        | term AND term 
+        | term LEQ term 
+        | term '#' term 
         ;
-
-unary	: NOT
-      	| '-'
-	| '*'
-	;
-
-binary	: '+'
-       	| '*'
-       	| AND
-       	| LEQ
-       	| '#'
-	;
 
 term    : '(' expr ')'  
 	| NUM   
         | ID	 
-        | ID '(' exprs ')'    
+        | ID '(' mbexprs ')'    
         ;
 
-exprs	: expr ',' exprs
+mbexprs	: expr ',' mbexprs
 	| expr
 	| /* EMPTY */
 	;

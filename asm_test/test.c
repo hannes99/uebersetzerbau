@@ -8,7 +8,7 @@ void testA() {
     unsigned char x[16];
     int i;
     for(i=0;i<16;i++) {
-        x[i] = 251+i;
+        x[i] = 115+i;
     }
     asma(x);
     for(i=0;i<16;i++) {
@@ -31,5 +31,6 @@ void testB() {
 
 
 int main() {
-    testB();
+    testA();
+    //testB();
 }
