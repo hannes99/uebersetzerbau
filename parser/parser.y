@@ -54,12 +54,33 @@ expr    : term
 	| NOT term
 	| '-' term
 	| '*' term
-        | term '+' term 
-        | term '*' term 
-        | term AND term 
+        | plusterm
+        | multterm
+        | andterm
         | term LEQ term 
         | term '#' term 
         ;
+
+plusterm: term '+' mbpterm
+	;
+
+mbpterm : plusterm
+	| term
+	;
+
+multterm: term '*' mbmterm
+	;
+
+mbmterm	: multterm
+	| term
+	;
+
+andterm : term AND mbaterm
+	;
+
+mbaterm	: andterm
+	| term
+	;
 
 term    : '(' expr ')'  
 	| NUM   

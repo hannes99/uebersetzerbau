@@ -1,10 +1,8 @@
-CFLAGS = -DEBUG -g
-
 parser: y.tab.c lex.yy.c
-	gcc -DEBUD -g y.tab.c lex.yy.c -o parser
+	gcc y.tab.c lex.yy.c -o parser
 
 y.tab.c:
-	$(YACC) -v -t -d parser.y
+	$(YACC) -d parser.y
 
 lex.yy.c:
 	$(LEX) scanner.l

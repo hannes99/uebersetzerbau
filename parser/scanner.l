@@ -38,7 +38,7 @@
 
 [ \t] ;
 
-. {printf("Lexical error: %s\n", yytext); exit(1);}
+. {printf("Lexical error at line: %d: %s\n", yylineno, yytext); exit(1);}
 
 %%
 int yywrap(void){return 1;}
