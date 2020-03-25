@@ -4,7 +4,7 @@ hallo(a,s,d,e,s,a,pla,axc,)
     cont fghHG;
   end;
   xx := 2+2+2+3+2+2+3+2+1+22;
-  xx := 2 <= 2 and true and false + 5;
+  xx := 2 and 2 and true and false and 5;
   var xx := -hallo(not 4, 5 + 7, *sdf);
 end;
 

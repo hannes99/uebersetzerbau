@@ -8,4 +8,4 @@ lex.yy.c:
 	$(LEX) scanner.l
 
 clean:
-	$(RM) *.o parser y.tab.h y.tab.c lex.yy.c y.output
+	rm -rf *.o parser y.tab.h y.tab.c lex.yy.c y.output
