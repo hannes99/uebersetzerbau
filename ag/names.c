@@ -5,7 +5,7 @@
 
 extern int yylineno;
 
-nnode add_new_name(nnode *last_end, nnode must_not_be_in, char *name, int line) {
+nnode add_new_name(nnode *last_end, nnode must_not_be_in, char *name, unsigned long line) {
     if(strcmp(name, "")==0) return *last_end;
     if (last_end!=0) must_not_exist(*last_end, name, line);
     must_not_exist(must_not_be_in, name, line);
@@ -17,17 +17,17 @@ nnode add_new_name(nnode *last_end, nnode must_not_be_in, char *name, int line) 
     return new_name_node;
 }
 
-void must_not_exist(nnode node, char *name, int line) {
+void must_not_exist(nnode node, char *name, unsigned long line) {
     int exists_in_line = check_exists(node, name); 
     if(exists_in_line != 0) {
-        fprintf(stderr, "line %d: %s already declared in line %d!\n", line, name, exists_in_line);
+        fprintf(stderr, "line %lu: %s already declared in line %lu!\n", line, name, exists_in_line);
         exit(3);
     }
 }
 
-void must_exist(nnode node, char *name, int line) {
+void must_exist(nnode node, char *name, unsigned long line) {
     if(check_exists(node, name) == 0) { 
-        fprintf(stderr, "line %d: %s not declared!\n", line, name);
+        fprintf(stderr, "line %lu: %s not declared!\n", line, name);
         exit(3);
     }
 }

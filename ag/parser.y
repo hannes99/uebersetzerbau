@@ -23,7 +23,7 @@ int yyerror(char *e) {
 %start program
 
 @attributes {char *name; int line;} ID
-@attributes {long value;} NUM
+@attributes {long long value;} NUM
 @attributes {nnode names, labels; char *name_up; int line;} stmt
 @attributes {nnode names, labels;} mbstmts mbelse
 @attributes {nnode names;} mbpars lexpr expr plusterm mbpterm multterm mbmterm andterm mbaterm term mbexprs

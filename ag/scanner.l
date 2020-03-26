@@ -39,8 +39,8 @@ char *lexeme() {
 
 ([a-zA-Z]|"_")[a-zA-Z0-9|"_"]* return ID; @{ @ID.name@ = lexeme(); @ID.line@ = yylineno; @}
 
-[0-9]+          return NUM; @{ @NUM.value@ = atol(yytext); @}
-0x[0-9a-fA-F]+  return NUM; @{ @NUM.value@ = strtol(yytext+2, 0, 16); @}
+[0-9]+          return NUM; @{ @NUM.value@ = atoll(yytext); @}
+0x[0-9a-fA-F]+  return NUM; @{ @NUM.value@ = strtoll(yytext+2, 0, 16); @}
 
 [\n]    {yylineno++;}
 
