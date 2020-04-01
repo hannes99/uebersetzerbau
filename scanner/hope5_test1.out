@@ -1,0 +1,14 @@
+if
+id var1
+<=
+num 255
+then
+id var2
+:=
+num 1
+;
+else
+return
+num 0
+;
+end
