@@ -1,11 +1,9 @@
 #ifndef NAMES_H_
 #define NAMES_H_
 
-
 typedef struct name_node {
     unsigned long line;
 	char *name;
-	long long adr;
 	struct name_node *predecessor;
 } nnode;
 

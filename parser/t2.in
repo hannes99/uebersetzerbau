@@ -1,0 +1,10 @@
+pla(a, )
+  var x := -(55+55);
+  //*dd := not 444;
+  if not(not (- (123 and 44))) then 
+    //*x := not 33;
+    if 44 <= 43 then
+      //abc:loop var t := 3231; end;
+    end;
+  end;
+end;

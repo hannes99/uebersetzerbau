@@ -50,10 +50,13 @@ lexpr   : ID
         | '*' term
         ;
 
-expr    : term
-	| NOT term
-	| '-' term
-	| '*' term
+mblop	: term
+      	| NOT mblop
+    	| '-' mblop
+	| '*' mblop
+	;
+
+expr    : mblop
         | plusterm
         | multterm
         | andterm

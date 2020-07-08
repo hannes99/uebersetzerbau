@@ -1,0 +1,139 @@
+%{
+#include "tree.h"
+#include "asm.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <assert.h>
+
+
+
+struct Context {
+	char *vars[REG_COUNT];
+	short reg_used[REG_COUNT];
+};
+
+static struct Context ctx;
+
+enum Register get_register() {
+	printf("REGS %d\n", REG_COUNT);
+    for (int i = 0; i < REG_COUNT; ++i) {
+        if (!ctx.reg_used[i]) {
+            ctx.reg_used[i] = 1;
+            return i;
+            printf("return %d\n", i);
+        }
+    }
+    printf("out of registers");
+}
+
+void free_register(enum Register r) {
+	ctx.reg_used[r] = 0;
+}
+
+enum Register new_variable(const char *id) {
+	
+}
+
+void flip_children(struct Tree *node) {
+	printf("FLIP\n");
+	struct Tree *left = LEFT_CHILD(node);
+	LEFT_CHILD(node) = RIGHT_CHILD(node);
+	RIGHT_CHILD(node) = left;
+}
+
+void op_const_const(struct Tree *node) {
+	long const1 = LEFT_CHILD(node)->value;
+    long const2 = RIGHT_CHILD(node)->value;
+    //LEFT_CHILD(node) = NULL;
+    //RIGHT_CHILD(node) = NULL;
+	switch(OP_LABEL(node)) {
+    	case TREE_ADD: node->value = const1+const2; break;
+    	case TREE_MULT: node->value = const1*const2; break;
+    	case TREE_AND: node->value = const1&const2; break;
+    	case TREE_NEQ: node->value = const1!=const2?-1:0; break;
+    	case TREE_LEQ: node->value = const1<=const2?-1:0; break;
+    }
+}
+
+void op_const(struct Tree *node) {
+	long c = LEFT_CHILD(node)->value;
+	switch(OP_LABEL(node)) {
+		case TREE_NOT: node->value = (~c); break;
+		case TREE_NEG: node->value = (-c); break;
+	}
+}
+
+void reg_var(struct Tree *node) {
+	enum Register reg = 
+}
+
+%}
+%term CONST=1
+%term VAR=2
+%term ADD=3
+%term MULT=4
+%term AND=5
+%term NEQ=6
+%term LEQ=7
+%term NOT=8
+%term NEG=9
+%term MEM=10
+%term RETURN=11
+%term EXPR=12
+%term ASSIGN=13
+%term DECL=14
+
+%start stat
+%%
+stat: return				#1#
+stat: ASSIGN(adr,const)		#1# 
+
+const: CONST				#0#
+const: ADD(const, const)	#1# op_const_const(bnode); 
+const: MULT(const, const)	#1# op_const_const(bnode); 
+const: AND(const, const)	#1# op_const_const(bnode);
+const: NEQ(const, const)	#1# op_const_const(bnode); 
+
+adr: MEM(const)				#0#
+adr: MEM(reg)				#1#
+
+reg: CONST					#1# a_immediate(bnode->value, (bnode->reg=get_regsiter()));
+reg: const					#1# a_immediate(bnode->value, (bnode->reg=get_register()));
+reg: VAR					#1# reg_var(bnode); 
+
+
+%%
+
+void burm_reduce(NODEPTR_TYPE bnode, int goalnt);
+
+long count_nodes(NODEPTR_TYPE node) {
+	long ret = 0;
+	if(node->left_child!=NULL) ret+=(1+count_nodes(node->left_child));
+	if(node->right_child!=NULL) ret+=(1+count_nodes(node->right_child));
+	return ret;
+}
+
+void print(NODEPTR_TYPE node, int intend, char s) {
+	for(int i = 0; i<intend;i++) printf(" ");
+	printf("%c[T:%d, V:%ld, ID:%s, REG:%s]\n", s, node->node_type, node->value, node->id, reg_to_str(node->reg));
+	if(node->left_child!=NULL) print(node->left_child, intend+1, 'L');
+	if(node->right_child!=NULL) print(node->right_child, intend+1, 'R');
+}
+
+void cg_statement(NODEPTR_TYPE root) {
+    printf("---STMT---\n");
+    print(root, 0, '0');
+    long now, last;
+    do {
+    	last = count_nodes(root);
+		if(burm_label(root)) {
+	        burm_reduce(root, 1);
+	        now = count_nodes(root);
+	        printf("---reduced--- %ld -> %ld\n", last, now);
+	    } else {
+	        printf("unable to burm_label");
+	    }
+    } while(0 && now<last);
+	print(root, 0, '0');
+}
+

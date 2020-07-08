@@ -1,9 +1,0 @@
-if var1 <= 0xff then
-
-    var2 := 1;
-
-else
-
-    return 0;
-
-end

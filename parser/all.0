@@ -1,0 +1,73 @@
+id()end;
+id(asd)end;
+id(asd,oke)end;
+id(asd,b,)end;
+id(a,b,c,d,)
+	a := 1;a:=3;
+	b := a;
+	c := id();
+	c := id(3,);
+	c := id(*a);
+	c := adf(1 + 1);
+	c := asd(1 + 3 + 5, ( 1+ a) * 33);
+	c := 3 + 3 + 3;
+	c := a * 3 * a;
+	c := (a + 3) * a;
+	c := a * (a + 3);
+	c := (a * a * a) + a;
+	c := a + ( a * a * a);
+	c := not-**not-c;
+	c := not - * *  not * not c;
+	c := * - * *  not * * c;
+	c := - - * *  not * - c;
+	c := -c;
+	c := *c;
+	c := not c;
+	--c;
+	**c;
+	not not c;
+	-not c;
+	not-c;
+	*not c;
+	not*c;
+	*-c;
+	-*c;
+	*c := 3;
+//
+	*(c) := 4;
+	*(1+1) := 5;
+	*(*a) := 10;
+	c := (c);
+	c := (3);
+	c := 3 and c and a;
+	//
+    a := (c <= c) and (c # c) and 3;	
+	var e := 3;
+	loop1 : loop end;
+	loop1 : loop
+		break loop1;
+		cont loop1;
+		loop2 : loop
+			break loop1;
+			cont loop1;
+			break loop2;
+			cont loop2;
+		end;	
+		// f := 9;
+		// i := 10;
+		var f := 10;
+		f;
+		1;
+		(*f) + e;
+		*(f + e);
+		*f := f;
+		*(*f) := f;
+		1 + 1;
+		(1+1);
+		return *f;
+		return -f;
+		return not f;
+	end;
+//  f := 3;
+
+end;
